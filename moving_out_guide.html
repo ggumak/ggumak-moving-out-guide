@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우리들의 무빙 아웃 공략집</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f0f2f5; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        header { background-color: #4a90e2; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+        header h1 { margin: 0; font-size: 24px; }
+        main { padding: 20px; }
+        #level-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .level-card { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .level-card:hover { transform: translateY(-5px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .level-card img { width: 100%; height: 120px; object-fit: cover; display: block; }
+        .level-card h3 { font-size: 16px; margin: 10px; }
+        #level-detail { display: none; }
+        #level-detail h2 { margin-top: 0; }
+        #level-detail ul { padding-left: 20px; }
+        #level-detail li { margin-bottom: 10px; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; margin-top: 20px;}
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .back-button { display: inline-block; margin-bottom: 20px; padding: 8px 16px; background-color: #4a90e2; color: white; text-decoration: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🚚 우리들의 무빙 아웃 공략집 📦</h1>
+        </header>
+        <main>
+            <div id="level-list">
+                </div>
+            <div id="level-detail">
+                </div>
+        </main>
+    </div>
+
+    <script>
+        // ==================================================
+        // 여기에 공략 데이터를 직접 입력하고 수정하시면 됩니다!
+        // ==================================================
+        const levels = [
+            {
+                id: 1,
+                name: "Packmore River",
+                thumbnail: "https://via.placeholder.com/300x150/8d6e63/ffffff?text=Packmore+River", // 이미지 주소를 여기에 넣으세요
+                difficulty: "하",
+                players: "1-4",
+                tips: [
+                    "시작하자마자 강을 건너 큰 아이템부터 옮기는 것이 효율적입니다.",
+                    "악어의 이동 패턴을 파악하고 타이밍 맞춰 건너세요.",
+                    "가벼운 아이템은 강에 던져서 반대편으로 옮길 수 있습니다."
+                ],
+                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" // 유튜브 영상 주소 'watch?v=' 를 'embed/'로 바꿔서 넣으세요.
+            },
+            {
+                id: 2,
+                name: "The Hoop House",
+                thumbnail: "https://via.placeholder.com/300x150/546e7a/ffffff?text=The+Hoop+House",
+                difficulty: "중",
+                players: "1-4",
+                tips: [
+                    "농구 골대를 이용해 2층의 아이템을 아래로 던지면 빠릅니다.",
+                    "2층의 깨지는 유리를 통해 아이템을 바로 트럭으로 옮길 수 있습니다.",
+                    "소파와 같은 긴 아이템은 창문을 통해 대각선으로 빼내야 합니다."
+                ],
+                videoUrl: "https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG"
+            },
+            // 여기에 새로운 맵 정보를 추가하세요
+            // {
+            //     id: 3,
+            //     name: "새로운 맵 이름",
+            //     thumbnail: "이미지 주소",
+            //     difficulty: "상",
+            //     players: "2-4",
+            //     tips: [
+            //         "팁 1",
+            //         "팁 2"
+            //     ],
+            //     videoUrl: "유튜브 embed 주소"
+            // }
+        ];
+
+        const levelListContainer = document.getElementById('level-list');
+        const levelDetailContainer = document.getElementById('level-detail');
+
+        function showLevelList() {
+            levelListContainer.style.display = 'grid';
+            levelDetailContainer.style.display = 'none';
+            levelDetailContainer.innerHTML = '';
+        }
+
+        function showLevelDetail(levelId) {
+            const level = levels.find(l => l.id === levelId);
+            if (!level) return;
+
+            levelListContainer.style.display = 'none';
+            levelDetailContainer.style.display = 'block';
+
+            let tipsHtml = '';
+            level.tips.forEach(tip => {
+                tipsHtml += `<li>${tip}</li>`;
+            });
+
+            levelDetailContainer.innerHTML = `
+                <a href="#" class="back-button" onclick="showLevelList(); return false;">&larr; 목록으로 돌아가기</a>
+                <h2>${level.name}</h2>
+                <p><strong>추천 인원:</strong> ${level.players} | <strong>난이도:</strong> ${level.difficulty}</p>
+                <hr>
+                <h4>💡 공략 팁</h4>
+                <ul>${tipsHtml}</ul>
+                <h4>🎥 참고 영상</h4>
+                <div class="video-container">
+                    <iframe src="${level.videoUrl}" title="${level.name}" frameborder="0" allowfullscreen></iframe>
+                </div>
+            `;
+        }
+
+        // 초기 맵 리스트 렌더링
+        levels.forEach(level => {
+            const card = document.createElement('div');
+            card.className = 'level-card';
+            card.innerHTML = `
+                <img src="${level.thumbnail}" alt="${level.name}">
+                <h3>${level.name}</h3>
+            `;
+            card.onclick = () => showLevelDetail(level.id);
+            levelListContainer.appendChild(card);
+        });
+    </script>
+</body>
+</html>
